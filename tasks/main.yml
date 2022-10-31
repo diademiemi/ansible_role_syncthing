@@ -1,5 +1,4 @@
 ---
-
 - name: Place sysctl config file
   become: true
   ansible.builtin.copy:

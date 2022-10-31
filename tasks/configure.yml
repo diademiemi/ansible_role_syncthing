@@ -1,4 +1,4 @@
-
+---
 - name: Check if syncthing_devices needs to be defined
   ansible.builtin.set_fact:
     syncthing_autogenerate_devices: "{{ syncthing_devices is not defined | bool }}"
