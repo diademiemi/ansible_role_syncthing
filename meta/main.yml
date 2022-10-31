@@ -1,7 +1,7 @@
 galaxy_info:
   author: diademiemi
   description: Ansible role to install and configure Syncthing with devices and folders 
-  role_name: vscode
+  role_name: syncthing
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
