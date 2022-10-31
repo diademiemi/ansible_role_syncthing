@@ -20,12 +20,18 @@ None
 | `syncthing_install_user` | `true` | Whether to configure and enable syncthing to run as this user |
 | `syncthing_hosts` | `{{ ansible_play_hosts_all }}` | List of hosts (including self) to use as Syncthing peers. |
 | `syncthing_configure` | `true` | Whether to configure Syncthing. |
+| `syncthing_bootstrap_only` | `false` | Whether to only configure Syncthing once. |
 | `syncthing_gui_enabled` | `true` | Whether to enable the Syncthing GUI. |
 | `syncthing_gui_address` | `127.0.0.1:8384` | Address to bind the Syncthing GUI to. |
 | `syncthing_gui_apikey` | `""` | API key to use for the Syncthing GUI. |
 | `syncthing_gui_theme` | `default` | Theme to use for the Syncthing GUI. |
 
 ## Configuration
+
+This Ansible role will overwrite your Syncthing configuration, be careful!  
+
+This role by default will also overwrite any manual changes, if you want to just use this role to install and set up Syncthing one time, and do the rest manually, set `syncthing_bootstrap_only` to true.  
+Otherwise, every time this role is run, it will overwrite configuration that is not stored in the Ansible variables.  
 
 ### Devices
 The `syncthing_devices` variable is used to configure remote devices on the Syncthing instance.  *This variable is not required*, if this variable is not set, this role will generate it based on the other hosts in this play.  

@@ -7,6 +7,7 @@ syncthing_user: "{{ ansible_user_id }}"
 syncthing_install_user: true
 syncthing_hosts: "{{ ansible_play_hosts_all }}" # List of Ansible inventory hosts in this play to configure as Syncthing peers  
 syncthing_configure: true
+syncthing_bootstrap_only: false
 
 ### SYNCTHING OPTIONS
 syncthing_gui_enabled: "true"
@@ -28,6 +29,7 @@ syncthing_folder_defaults: # Will be used if missing from folder
   autoNormalize: "true"
 
 ## SYNCTHING CONFIG EXAMPLES
+# Check the README.md for more information on how to configure this Syncthing role
 # syncthing_devices: # Static list of devices
 #   - name: "My Laptop"
 #     device_id: "AAAAAAA-BBBBBBB-CCCCCCC-DDDDDDD-EEEEEEE-FFFFFFF-GGGGGGG-HHHHHHH"
