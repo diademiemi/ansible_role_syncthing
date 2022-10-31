@@ -31,4 +31,3 @@
   ansible.builtin.command: syncthing -generate="~/.config/syncthing"
   args:
     creates: "/home/{{ syncthing_user }}/.config/syncthing/config.xml"
-
