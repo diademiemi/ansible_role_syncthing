@@ -1,0 +1,34 @@
+- name: Ensure systemd user directory exists
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.file:
+    path: ~/.config/systemd/user
+    state: directory
+    mode: 0755
+
+- name: Copy syncthing systemd user units
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.copy:
+    src: "/tmp/syncthing/etc/linux-systemd/user/{{ item }}"
+    dest: ~/.config/systemd/user/{{ item }}
+    mode: 0644
+    remote_src: true
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+  loop:
+  - syncthing.service
+
+- name: Enable linger for this user
+  become: true
+  ansible.builtin.command: loginctl enable-linger "{{ syncthing_user }}"
+  args:
+    creates: /var/lib/systemd/linger/{{ syncthing_user }}
+
+- name: Generate syncthing config if it doesn't exist
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.command: syncthing -generate="~/.config/syncthing"
+  args:
+    creates: "/home/{{ syncthing_user }}/.config/syncthing/config.xml"
+

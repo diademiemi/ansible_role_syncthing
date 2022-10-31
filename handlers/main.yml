@@ -1,0 +1,16 @@
+---
+- name: Reload sysctl
+  become: true
+  ansible.builtin.command: sysctl -p
+  register: sysctl_reload
+  changed_when: sysctl_reload.rc == 0
+
+- name: Restart syncthing for user
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+    name: syncthing
+    state: restarted
+    enabled: true

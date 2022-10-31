@@ -1,0 +1,63 @@
+
+- name: Check if syncthing_devices needs to be defined
+  ansible.builtin.set_fact:
+    syncthing_autogenerate_devices: "{{ syncthing_devices is not defined | bool }}"
+  when: syncthing_autogenerate_devices is not defined
+
+- name: Set syncthing_devices variable
+  when: syncthing_autogenerate_devices
+  block:
+
+    - name: Install pip
+      become: true
+      ansible.builtin.package:
+        name: python3-pip
+        state: present
+
+    - name: Install pip dependencies
+      become: true
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - lxml
+        - jmespath
+
+    - name: Read device ID from Syncthing config
+      become: true
+      become_user: "{{ syncthing_user }}"
+      community.general.xml:
+        path: "~/.config/syncthing/config.xml"
+        xpath: /configuration/device
+        content: attribute
+      register: device_id
+
+    - name: Set device ID fact
+      ansible.builtin.set_fact:
+        syncthing_device_id: "{{ device_id.matches[0].device.id }}"
+
+    - name: Set syncthing_devices dictionary
+      ansible.builtin.set_fact:
+        syncthing_devices: "{{ syncthing_devices | default([]) + [ {
+          'name': hostvars[item].ansible_hostname,
+          'device_id': hostvars[item].syncthing_device_id,
+          'address': syncthing_device_defaults['address'] } ] }}"
+      # Make sure current host is first entry!
+      loop: "{{ [inventory_hostname] + syncthing_hosts | difference([inventory_hostname]) }}"
+
+    - name: Append external devices
+      ansible.builtin.set_fact:
+        syncthing_devices: "{{ syncthing_devices | default([]) + [ item ] }}"
+      loop: "{{ syncthing_external_devices }}"
+      when: syncthing_external_devices is defined
+
+- name: Place syncthing configuration file
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.template:
+    src: config.xml.j2
+    dest: "~/.config/syncthing/config.xml"
+    mode: 0644
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+  notify: Restart syncthing for user
