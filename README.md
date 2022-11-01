@@ -20,6 +20,7 @@ None
 | `syncthing_install_user` | `true` | Whether to configure and enable syncthing to run as this user |
 | `syncthing_hosts` | `{{ ansible_play_hosts_all }}` | List of hosts (including self) to use as Syncthing peers. |
 | `syncthing_configure` | `true` | Whether to configure Syncthing. |
+| `syncthing_configure_firewall` | `true` | Whether to configure firewall rules for Syncthing to work locally. |
 | `syncthing_bootstrap_only` | `false` | Whether to only configure Syncthing once. |
 | `syncthing_gui_enabled` | `true` | Whether to enable the Syncthing GUI. |
 | `syncthing_gui_address` | `127.0.0.1:8384` | Address to bind the Syncthing GUI to. |

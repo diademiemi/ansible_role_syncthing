@@ -7,6 +7,7 @@ syncthing_user: "{{ ansible_user_id }}"
 syncthing_install_user: true
 syncthing_hosts: "{{ ansible_play_hosts_all }}" # List of Ansible inventory hosts in this play to configure as Syncthing peers  
 syncthing_configure: true
+syncthing_configure_firewall: true
 syncthing_bootstrap_only: false
 
 ### SYNCTHING OPTIONS

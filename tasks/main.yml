@@ -60,6 +60,10 @@
     name: syncthing-resume
     enabled: true
 
+- name: Configure firewall settings for Syncthing
+  when: syncthing_configure_firewall
+  include_tasks: firewall.yml
+
 - name: User specific tasks
   when: syncthing_install_user
   include_tasks: user.yml

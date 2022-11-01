@@ -1,0 +1,49 @@
+---
+- name: Check if UFW directory exists
+  ansible.builtin.stat:
+    path: /etc/ufw
+  register: ufw_directory # use this to determine if UFW is used
+  changed_when: false
+  failed_when: false
+  ignore_errors: true
+
+- name: UFW tasks
+  when: ufw_directory.stat.exists is defined and ufw_directory.stat.exists
+  block:
+
+    - name: Copy over UFW application config
+      become: true
+      ansible.builtin.copy:
+        src: /tmp/syncthing/etc/firewall-ufw/syncthing
+        dest: /etc/ufw/applications.d/syncthing
+        mode: 0644
+        remote_src: true
+        owner: root
+        group: root
+
+    - name: Allow syncthing with UFW
+      become: true
+      ansible.builtin.ufw:
+        rule: allow
+        name: syncthing
+
+- name: Check if firewalld directory exists
+  ansible.builtin.stat:
+    path: /etc/firewalld
+  register: firewalld_directory # use this to determine if UFW is used
+  changed_when: false
+  failed_when: false
+  ignore_errors: true
+
+- name: Allow Syncthing ports with firewalld
+  become: true
+  ansible.builtin.firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: true
+    zone: public
+  loop:
+  - 22000/tcp
+  - 21027/udp
+  when: firewalld_directory.stat.exists is defined and firewalld_directory.stat.exists
