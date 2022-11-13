@@ -36,10 +36,19 @@
       ansible.builtin.set_fact:
         syncthing_device_id: "{{ device_id.matches[0].device.id }}"
 
+    - name: Set name fact
+      ansible.builtin.set_fact:
+        syncthing_device_name: "{{ syncthing_device_name | default(ansible_hostname) }}"
+
+    - name: Set hostname fact
+      ansible.builtin.set_fact:
+        syncthing_ansible_name: "{{ inventory_hostname }}"
+
     - name: Set syncthing_devices dictionary
       ansible.builtin.set_fact:
         syncthing_devices: "{{ syncthing_devices | default([]) + [ {
-          'name': hostvars[item].ansible_hostname,
+          'name': hostvars[item].syncthing_device_name,
+          'ansible_name': hostvars[item].syncthing_ansible_name,
           'device_id': hostvars[item].syncthing_device_id,
           'address': syncthing_device_defaults['address'] } ] }}"
       # Make sure current host is first entry!
