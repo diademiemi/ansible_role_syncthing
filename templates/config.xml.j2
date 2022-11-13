@@ -5,7 +5,7 @@
     <folder id="{{ key }}" label="{{ syncthing_folders[key]['label'] }}" path="{{ syncthing_folders[key]['path'] }}" type="{{ syncthing_folders[key]['type'] | default(syncthing_folder_defaults['type']) }}" rescanIntervalS="3600" fsWatcherEnabled="true" fsWatcherDelayS="10" ignorePerms="false" autoNormalize="true">
         <filesystemType>basic</filesystemType>
 {% for device in syncthing_devices %}
-{% if hostvars[device.name]['syncthing_folders'][key] is defined or device.device_id in syncthing_folders[key]['manual_shared_with'] | default([]) %}
+{% if device.device_id in syncthing_folders[key]['manual_shared_with'] | default([]) or device.ansible_name is defined and key in hostvars[device.ansible_name]['syncthing_folders'] | default([]) %}
         <device id="{{ device.device_id }}" introducedBy="">
             <encryptionPassword></encryptionPassword>
         </device>
