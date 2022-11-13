@@ -13,11 +13,12 @@ None
 ## Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `syncthing_version` | `v1.22.0` | Version of Syncthing to install. |
+| `syncthing_version` | `v1.22.1` | Version of Syncthing to install. |
 | `syncthing_arch` | `amd64` | Architecture for the Syncthing package. |
 | `syncthing_url` | See [defaults/main.yml](./defaults/main.yml) | Base URL for the Syncthing tarball. |
 | `syncthing_user` | `{{ ansible_user_id }}` | User to configure Syncthing for. |
 | `syncthing_install_user` | `true` | Whether to configure and enable syncthing to run as this user |
+| `syncthing_device_name` | `{{ inventory_hostname }}` | Name of the Syncthing device to other devices. |
 | `syncthing_hosts` | `{{ ansible_play_hosts_all }}` | List of hosts (including self) to use as Syncthing peers. |
 | `syncthing_configure` | `true` | Whether to configure Syncthing. |
 | `syncthing_configure_firewall` | `true` | Whether to configure firewall rules for Syncthing to work locally. |
