@@ -26,6 +26,7 @@
       ansible.builtin.ufw:
         rule: allow
         name: syncthing
+      ignore_errors: true
 
 - name: Check if firewalld directory exists
   ansible.builtin.stat:
@@ -47,3 +48,4 @@
   - 22000/tcp
   - 21027/udp
   when: firewalld_directory.stat.exists is defined and firewalld_directory.stat.exists
+  ignore_errors: true
