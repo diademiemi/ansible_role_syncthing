@@ -4,6 +4,7 @@
   ansible.builtin.command: sysctl -p
   register: sysctl_reload
   changed_when: sysctl_reload.rc == 0
+  failed_when: "sysctl_reload.rc != 0 and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 - name: Restart syncthing for user
   become: true
@@ -14,5 +15,7 @@
     name: syncthing
     state: restarted
     enabled: true
+  register: systemd_restart_syncthing
+  failed_when: "systemd_restart_syncthing.failed and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 ...
