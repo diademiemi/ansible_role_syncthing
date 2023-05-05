@@ -1,5 +1,9 @@
 Ansible Role Syncthing
 =========
+
+[![Molecule Test](https://github.com/diademiemi/ansible_role_syncthing/actions/workflows/molecule.yml/badge.svg)](https://github.com/diademiemi/ansible_role_syncthing/actions/workflows/molecule.yml)
+
+
 This is an Ansible role that installs Syncthing on Linux. It uses the tarball from the official website so this role is not dependent on any package manager.  
 
 This role can also optionally configure the devices and folders on the Syncthing instance.  
