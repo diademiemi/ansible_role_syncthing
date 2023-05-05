@@ -1,4 +1,11 @@
 ---
+- name: Ensure sysctl.d exists
+  become: true
+  ansible.builtin.file:
+    path: /etc/sysctl.d
+    state: directory
+    mode: "0755"
+
 - name: Place sysctl config file
   become: true
   ansible.builtin.copy:
