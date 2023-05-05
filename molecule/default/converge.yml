@@ -9,6 +9,6 @@
       when: ansible_os_family == 'Debian'
       changed_when: false # Breaks idempotency test
   tasks:
-    - name: "Include diademiemi.template"
+    - name: "Include diademiemi.syncthing"
       ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

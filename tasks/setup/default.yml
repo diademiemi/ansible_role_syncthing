@@ -90,6 +90,6 @@
     enabled: true
   when: syncthing_install_user
   register: systemd_start_syncthing
-  failed_when: systemd_start_syncthing.failed and "'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
+  failed_when: "systemd_start_syncthing.failed and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 ...
