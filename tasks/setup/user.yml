@@ -5,7 +5,7 @@
   ansible.builtin.file:
     path: ~/.config/systemd/user
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: Copy syncthing systemd user units
   become: true
@@ -13,12 +13,12 @@
   ansible.builtin.copy:
     src: "/tmp/syncthing/etc/linux-systemd/user/{{ item }}"
     dest: ~/.config/systemd/user/{{ item }}
-    mode: 0644
+    mode: "0644"
     remote_src: true
     owner: "{{ syncthing_user }}"
     group: "{{ syncthing_user }}"
   loop:
-  - syncthing.service
+    - syncthing.service
 
 - name: Enable linger for this user
   become: true
@@ -32,3 +32,4 @@
   ansible.builtin.command: syncthing -generate="~/.config/syncthing"
   args:
     creates: "/home/{{ syncthing_user }}/.config/syncthing/config.xml"
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"

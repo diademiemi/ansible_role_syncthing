@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  pre_tasks:
+    - name: "Refresh Apt cache"
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_os_family == 'Debian'
+      changed_when: false # Breaks idempotency test
+  tasks:
+    - name: "Include diademiemi.template"
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

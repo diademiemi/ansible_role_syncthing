@@ -1,0 +1,23 @@
+---
+- name: Run diademiemi.template on localhost
+  hosts: localhost
+  tasks:
+    - name: "Ensure temporary roles directory exists"
+      ansible.builtin.file:
+        path: "~/.ansible/roles"
+        state: directory
+        mode: '0755'
+    - name: "Create temporary symlink in roles directory "
+      ansible.builtin.file:
+        src: "{{ lookup('env', 'PWD') }}"
+        dest: "~/.ansible/roles/{{ lookup('env', 'PWD') | basename }}"
+        state: link
+    - name: "Include diademiemi.template"
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'PWD') | basename }}"
+    - name: "Remove temporary symlink in roles directory"
+      ansible.builtin.file:
+        path: "~/.ansible/roles/{{ lookup('env', 'PWD') | basename }}"
+        state: absent
+
+...

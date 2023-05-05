@@ -1,0 +1,92 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+platforms:
+  - name: ubuntu2004
+    image: docker.io/geerlingguy/docker-ubuntu2004-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/usr/sbin/init"
+  - name: ubuntu2204
+    image: docker.io/geerlingguy/docker-ubuntu2204-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/usr/sbin/init"
+  - name: debian10
+    image: docker.io/geerlingguy/docker-debian10-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/sbin/init"
+  - name: debian11
+    image: docker.io/geerlingguy/docker-debian11-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/sbin/init"
+  - name: el8
+    image: docker.io/geerlingguy/docker-rockylinux8-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/usr/sbin/init"
+  - name: el9
+    image: docker.io/geerlingguy/docker-rockylinux9-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/usr/sbin/init"
+  - name: fedora38
+    image: docker.io/geerlingguy/docker-fedora38-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: "/usr/sbin/init"
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_LOCAL_TEMP: "${HOME}/.ansible/tmp"
+    ANSIBLE_REMOTE_TMP: /tmp/ansible
+verifier:
+  name: ansible
+
+...

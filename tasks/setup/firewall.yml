@@ -16,17 +16,16 @@
       ansible.builtin.copy:
         src: /tmp/syncthing/etc/firewall-ufw/syncthing
         dest: /etc/ufw/applications.d/syncthing
-        mode: 0644
+        mode: "0644"
         remote_src: true
         owner: root
         group: root
 
     - name: Allow syncthing with UFW
       become: true
-      ansible.builtin.ufw:
+      community.general.ufw:
         rule: allow
         name: syncthing
-      ignore_errors: true
 
 - name: Check if firewalld directory exists
   ansible.builtin.stat:
@@ -38,14 +37,17 @@
 
 - name: Allow Syncthing ports with firewalld
   become: true
-  ansible.builtin.firewalld:
+  ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
     state: enabled
     immediate: true
     zone: public
   loop:
-  - 22000/tcp
-  - 21027/udp
+    - 22000/tcp
+    - 21027/udp
   when: firewalld_directory.stat.exists is defined and firewalld_directory.stat.exists
-  ignore_errors: true
+  register: firewalld_result
+  failed_when: '"failed to connect to" not in firewalld_result.msg'
+
+...

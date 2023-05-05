@@ -1,6 +1,8 @@
 galaxy_info:
   author: diademiemi
-  description: Ansible role to install and configure Syncthing with devices and folders 
+  namespace: diademiemi
+  company: diademiemi
+  description: Ansible role to install and configure syncthing
   role_name: syncthing
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -16,7 +18,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: MIT
 
-  min_ansible_version: "2.1"
+  min_ansible_version: "2.10"
 
   # If this a Container Enabled role, provide the minimum Ansible Container version.
   # min_ansible_container_version:
@@ -26,18 +28,23 @@ galaxy_info:
   # If you don't wish to enumerate all versions for a particular platform, use 'all'.
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
-  #
-  # platforms:
-  # - name: Fedora
-  #   versions:
-  #   - all
-  #   - 25
-  # - name: SomePlatform
-  #   versions:
-  #   - all
-  #   - 1.0
-  #   - 7
-  #   - 99.99
+
+  platforms:
+    - name: "EL"
+      versions:
+        - "8"
+        - "9"
+    - name: "Fedora"
+      versions:
+        - "38"
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes

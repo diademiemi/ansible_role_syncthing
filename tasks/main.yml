@@ -1,84 +1,57 @@
 ---
-- name: Place sysctl config file
-  become: true
-  ansible.builtin.copy:
-    src: 90-syncthing.conf
-    dest: /etc/sysctl.d/90-syncthing.conf
-    mode: 0644
-    backup: true
-  notify: Reload sysctl
+- name: "Main | Ensure ansible_facts used by role"
+  ansible.builtin.setup:
+    gather_subset: min
 
-- name: Download Syncthing tarball
-  ansible.builtin.get_url:
-    url: "{{ syncthing_url }}"
-    dest: /tmp/syncthing.tar.gz
-    mode: 0644
+- name: "Main | Set platform/version specific variables"
+  ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', find_vars) }}"
+  vars:
+    find_vars:
+      files:
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_major_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+        - "default.yml"
+      skip: true
+      paths:
+        - "vars"
 
-- name: Ensure temp directory exists
-  ansible.builtin.file:
-    path: /tmp/syncthing
-    state: directory
-    mode: 0755
+- name: "Main | Assert platform/version specific variables"
+  ansible.builtin.include_tasks: "{{ lookup('ansible.builtin.first_found', find_asserts) }}"
+  vars:
+    find_asserts:
+      files:
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_major_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+        - "default.yml"
+      skip: true
+      paths:
+        - "assert"
 
-- name: Extract Syncthing tarball
-  ansible.builtin.unarchive:
-    src: /tmp/syncthing.tar.gz
-    dest: /tmp/syncthing
-    remote_src: true
-    creates: /tmp/syncthing/syncthing
-    extra_opts:
-    - --strip-components=1
+- name: "Main | platform/version specific playbooks"
+  ansible.builtin.include_tasks: "{{ lookup('ansible.builtin.first_found', find_playbooks) }}"
+  vars:
+    find_playbooks:
+      files:
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+          {{ ansible_facts['distribution_major_version'] }}.yml"
+        - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+        - "default.yml"
+      skip: true
+      paths:
+        - "tasks/{{ __role_action_task }}"
+  loop: "{{ [__role_action | default('setup')] | flatten }}"
+  loop_control:
+    loop_var: __role_action_task
 
-- name: Copy syncthing executable
-  become: true
-  ansible.builtin.copy:
-    src: /tmp/syncthing/syncthing
-    dest: /usr/bin/syncthing
-    mode: 0755
-    remote_src: true
-    owner: root
-    group: root
-
-- name: Copy syncthing systemd units
-  become: true
-  ansible.builtin.copy:
-    src: "/tmp/syncthing/etc/linux-systemd/system/{{ item }}"
-    dest: /etc/systemd/system/{{ item }}
-    mode: 0644
-    remote_src: true
-    owner: root
-    group: root
-  loop:
-  - syncthing@.service
-  - syncthing-resume.service
-  register: syncthing_systemd_units
-
-- name: Enable syncthing-resume.service
-  become: true
-  ansible.builtin.systemd:
-    daemon_reload: "{{ syncthing_systemd_units.results[0].changed | bool or syncthing_systemd_units.results[1].changed | bool }}"
-    name: syncthing-resume
-    enabled: true
-
-- name: Configure firewall settings for Syncthing
-  when: syncthing_configure_firewall
-  include_tasks: firewall.yml
-
-- name: User specific tasks
-  when: syncthing_install_user
-  include_tasks: user.yml
-
-- name: Configure syncthing for user
-  when: syncthing_install_user and syncthing_configure
-  include_tasks: configure.yml
-
-- name: Start syncthing for user
-  become: true
-  become_user: "{{ syncthing_user }}"
-  ansible.builtin.systemd:
-    daemon_reload: true
-    scope: user
-    name: syncthing
-    state: started
-    enabled: true
-  when: syncthing_install_user
+...

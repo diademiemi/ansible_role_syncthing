@@ -1,0 +1,21 @@
+---
+- name: Ensure __role_name is defined
+  ansible.builtin.assert:
+    that:
+      - __role_name is defined
+      - __role_name is string
+      - __role_name | length > 0
+      # Make sure I don't forget to replace the role name
+      # This assert failing also ensures this role is not uploaded to Ansible Galaxy
+      - "__role_name != ['temp', 'late'] | join('')"
+
+- name: Ensure facts are gathered for every host
+  ansible.builtin.assert:
+    that:
+      - hostvars[item].ansible_hostname is defined
+      - hostvars[item].ansible_hostname is string
+      - hostvars[item].ansible_hostname | length > 0
+    fail_msg: "This role is unstable when facts are not gathered for every host!"
+  loop: "{{ syncthing_hosts }}"
+
+...

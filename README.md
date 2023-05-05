@@ -1,16 +1,25 @@
-# Ansible Role Syncthing
+Ansible Role Syncthing
+=========
 This is an Ansible role that installs Syncthing on Linux. It uses the tarball from the official website so this role is not dependent on any package manager.  
 
 This role can also optionally configure the devices and folders on the Syncthing instance.  
 
 Tested on Fedora 36, should work on any Linux distribution that the Syncthing tarball supports.  
 
-## Requirements
+Requirements
+------------
+These platforms are supported:
+- Ubuntu 20.04  
+- Ubuntu 22.04  
+- Debian 10  
+- Debian 11  
+- EL 8 (Tested on Rocky Linux 8)  
+- EL 9 (Tested on Rocky Linux 9)  
+- Fedora 38  
 
-### Base requirements
-None  
+Role Variables
+--------------
 
-## Variables
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `syncthing_version` | `v1.22.1` | Version of Syncthing to install. |
@@ -28,7 +37,9 @@ None
 | `syncthing_gui_apikey` | `""` | API key to use for the Syncthing GUI. |
 | `syncthing_gui_theme` | `default` | Theme to use for the Syncthing GUI. |
 
-## Configuration
+
+Configuration
+-------------
 
 This Ansible role will overwrite your Syncthing configuration, be careful!  
 
@@ -176,3 +187,42 @@ Since the `phone` key doesn't appear here, it won't be shared with this device.
 ```
 
 </details>
+
+Dependencies
+------------
+<!-- List dependencies on other roles or criteria -->
+None
+
+Example Playbook
+----------------
+
+```yaml
+- name: Use template role
+  hosts: "{{ target | default('template') }}"
+  roles:
+    - diademiemi.syncthing
+```
+
+License
+-------
+
+MIT
+
+Author Information
+------------------
+
+- diademiemi (@diademiemi)
+
+Role Testing
+------------
+
+This repository comes with Molecule tests for Docker on the supported platforms.
+Install Molecule by running
+```bash
+pip3 install -r requirements.txt
+```
+
+Run the tests with
+```bash
+molecule test
+```

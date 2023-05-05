@@ -1,11 +1,12 @@
 ---
-syncthing_version: v1.22.1
+syncthing_version: v1.23.4
 syncthing_arch: amd64
-syncthing_url: https://github.com/syncthing/syncthing/releases/download/{{ syncthing_version }}/syncthing-linux-{{ syncthing_arch }}-{{ syncthing_version }}.tar.gz
+syncthing_url: "https://github.com/syncthing/syncthing/releases/download/\
+  {{ syncthing_version }}/syncthing-linux-{{ syncthing_arch }}-{{ syncthing_version }}.tar.gz"
 
 syncthing_user: "{{ ansible_user_id }}"
 syncthing_install_user: true
-syncthing_hosts: "{{ ansible_play_hosts_all }}" # List of Ansible inventory hosts in this play to configure as Syncthing peers  
+syncthing_hosts: "{{ ansible_play_hosts_all }}" # List of Ansible inventory hosts in this play to configure as Syncthing peers
 syncthing_configure: true
 syncthing_configure_firewall: true
 syncthing_bootstrap_only: false
@@ -47,3 +48,5 @@ syncthing_folder_defaults: # Will be used if missing from folder
 #     path: /home/{{ syncthing_user }}/Sync
     # manual_shared_with: # Append to auto generated shared devices
     #   - "AAAAAAA-BBBBBBB-CCCCCCC-DDDDDDD-EEEEEEE-FFFFFFF-GGGGGGG-HHHHHHH"
+
+...
