@@ -25,7 +25,8 @@
   ansible.builtin.command: loginctl enable-linger "{{ syncthing_user }}"
   args:
     creates: /var/lib/systemd/linger/{{ syncthing_user }}
-  failed_when: false # This does not work on most OS's, but necessary when it does work
+  register: loginctl_enable_linger
+  failed_when: loginctl_enable_linger.rc != 0 and "'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 - name: Generate syncthing config if it doesn't exist
   become: true
