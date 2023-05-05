@@ -26,7 +26,7 @@ Role Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `syncthing_version` | `v1.22.1` | Version of Syncthing to install. |
+| `syncthing_version` | `v1.23.4` | Version of Syncthing to install. |
 | `syncthing_arch` | `amd64` | Architecture for the Syncthing package. |
 | `syncthing_url` | See [defaults/main.yml](./defaults/main.yml) | Base URL for the Syncthing tarball. |
 | `syncthing_user` | `{{ ansible_user_id }}` | User to configure Syncthing for. |
