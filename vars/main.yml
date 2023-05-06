@@ -1,4 +1,12 @@
 ---
 __role_name: "syncthing"
+__role_task_search_order:
+  - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+    {{ ansible_facts['distribution_version'] }}.yml"
+  - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
+    {{ ansible_facts['distribution_major_version'] }}.yml"
+  - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml"
+  - "{{ ansible_facts['os_family'] | lower }}.yml"
+  - "default.yml"
 
 ...
