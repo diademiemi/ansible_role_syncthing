@@ -1,6 +1,6 @@
 ---
 __role_name: "syncthing"
-__role_task_search_order:
+__role_file_search_order:
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
     {{ ansible_facts['distribution_version'] }}.yml"
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\

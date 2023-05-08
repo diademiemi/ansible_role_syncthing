@@ -9,7 +9,7 @@
   ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', find_vars) }}"
   vars:
     find_vars:
-      files: "{{ __role_task_search_order }}"
+      files: "{{ __role_file_search_order }}"
       skip: true
       paths:
         - "vars"
@@ -19,7 +19,7 @@
   ansible.builtin.include_tasks: "{{ lookup('ansible.builtin.first_found', find_asserts) }}"
   vars:
     find_asserts:
-      files: "{{ __role_task_search_order }}"
+      files: "{{ __role_file_search_order }}"
       skip: true
       paths:
         - "assert"
@@ -29,7 +29,7 @@
   ansible.builtin.include_tasks: "{{ __role_found_tasks }}"
   vars:
     __role_find_tasks:
-      files: "{{ __role_task_search_order }}"
+      files: "{{ __role_file_search_order }}"
       skip: true
       paths: ["tasks/{{ __role_action_task }}"]
     __role_found_tasks: "{{ lookup('ansible.builtin.first_found', __role_find_tasks) }}"
