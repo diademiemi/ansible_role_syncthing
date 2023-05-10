@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies.
         run: pip3 install -r requirements.txt
 
-      - name: Install Galaxy dependencies.
-        run: ansible-galaxy collection install community.docker
+      - name: Install Ansible dependencies.
+        run: ansible-galaxy install -r requirements.yml
 
       - name: Run molecule
         run: "molecule test"
