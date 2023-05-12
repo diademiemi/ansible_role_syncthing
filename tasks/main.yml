@@ -1,10 +1,21 @@
 ---
+# ---------------------------------------------------------------------------------------------- #
+# This file is not meant to be modified, it serves as an entrypoint for other files in the role. #
+# Files are named after the platform, see vars/main.yml for the order and example filenames      #
+# For vars, it will loop through every file it can find and include them, the most specific file #
+# will be included last. This allows for more specific variables to override less specific ones  #
+# For assertions, all matching files will be ran in order from least to most specific            #
+# For tasks, only the most specific file will be ran. A post task file post-tasks.yml can be     #
+# created to run tasks that must be ran on every host regardless of platform in parallel.        #
+# A variable __role_action can be set to specify which path(s) to search for tasks.              #
+# ---------------------------------------------------------------------------------------------- #
+
 # Ensure distribution facts are gathered
 - name: "Main | Ensure ansible_facts used by role"
   ansible.builtin.setup:
     gather_subset: min
 
-# Set variables for this platform
+# Set all variables matching this platform
 - name: "Main | Set platform/version specific variables"
   ansible.builtin.include_vars: "{{ __role_found_vars }}"
   vars:
@@ -13,8 +24,8 @@
       skip: true
       paths: ["{{ role_path }}/vars"]
     __role_found_vars: "{{ lookup('ansible.builtin.first_found', __role_find_vars) }}"
-  when: __role_found_vars | length > 0
-  loop: "{{ __role_file_search_order | reverse | unique }}"
+  when: __role_found_vars | length > 0 # Check if any variables were found
+  loop: "{{ __role_file_search_order | reverse | unique }}" # reverse order to allow for more specific variables to override less specific ones
   loop_control:
     loop_var: __role_var_search
 
@@ -25,14 +36,14 @@
     __role_find_asserts:
       files: ["{{ __role_assert_search }}"]
       skip: true
-      paths: ["{{ role_path }}/assert"]
+      paths: ["{{ role_path }}/tasks/assert"]
     __role_found_asserts: "{{ lookup('ansible.builtin.first_found', __role_find_asserts) }}"
-  when: __role_found_asserts | length > 0
-  loop: "{{ __role_file_search_order | reverse | unique }}"
+  when: __role_found_asserts | length > 0 # Check if any assertions were found
+  loop: "{{ __role_file_search_order | unique }}"
   loop_control:
     loop_var: __role_assert_search
 
-# Run tasks specific to this platform
+# Run task file most specific to this platform
 - name: "Main | Run platform/version specific tasks"
   ansible.builtin.include_tasks: "{{ __role_found_tasks }}"
   vars:
@@ -41,22 +52,22 @@
       skip: true
       paths: ["{{ role_path }}/tasks/{{ __role_action_task }}"]
     __role_found_tasks: "{{ lookup('ansible.builtin.first_found', __role_find_tasks) }}"
-  when: __role_found_tasks | length > 0
-  loop: "{{ [__role_action | default('setup')] | flatten }}"
+  when: __role_found_tasks | length > 0 # Check if any tasks were found
+  loop: "{{ [__role_action | default('setup')] | flatten }}" # Here we look through different actions, only the most specific task file in them will be ran
   loop_control:
     loop_var: __role_action_task
 
-# This is sometimes can be used when the same tasks must be ran on every host in parallel
+# Run tasks in parallel with all hosts
 - name: "Main | tasks that always run"
   ansible.builtin.include_tasks: "{{ __role_found_tasks }}"
   vars:
     __role_find_tasks:
-      files: ["always.yml"]
+      files: ["post-tasks.yml"]
       skip: true
       paths: ["{{ role_path }}/tasks/{{ __role_action_task }}"]
     __role_found_tasks: "{{ lookup('ansible.builtin.first_found', __role_find_tasks) }}"
-  when: __role_found_tasks | length > 0
-  loop: "{{ [__role_action | default('setup')] | flatten }}"
+  when: __role_found_tasks | length > 0 # Check if task was found
+  loop: "{{ [__role_action | default('setup')] | flatten }}" # Loop over the different actions
   loop_control:
     loop_var: __role_action_task
 
