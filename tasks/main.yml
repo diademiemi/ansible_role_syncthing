@@ -5,7 +5,7 @@
 # For vars, it will loop through every file it can find and include them, the most specific file #
 # will be included last. This allows for more specific variables to override less specific ones  #
 # For assertions, all matching files will be ran in order from least to most specific            #
-# For tasks, only the most specific file will be ran. A post task file post-tasks.yml can be     #
+# For tasks, only the most specific file will be ran. A post task file always.yml can be         #
 # created to run tasks that must be ran on every host regardless of platform in parallel.        #
 # A variable __role_action can be set to specify which path(s) to search for tasks.              #
 # ---------------------------------------------------------------------------------------------- #
@@ -62,7 +62,7 @@
   ansible.builtin.include_tasks: "{{ __role_found_tasks }}"
   vars:
     __role_find_tasks:
-      files: ["post-tasks.yml"]
+      files: ["always.yml"]
       skip: true
       paths: ["{{ role_path }}/tasks/{{ __role_action_task }}"]
     __role_found_tasks: "{{ lookup('ansible.builtin.first_found', __role_find_tasks) }}"

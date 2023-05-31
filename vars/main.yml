@@ -3,20 +3,20 @@ __role_name: "syncthing"
 __role_file_search_order:
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
     {{ ansible_facts['distribution_release'] | lower | replace(' ', '_') }}_\
-    {{ ansible_facts['distribution_version'] }}.yml" # centos_stream_8_6.yml
+    {{ ansible_facts['distribution_version'] }}.yml"  # centos_stream_8_6.yml
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
-    {{ ansible_facts['distribution_version'] }}.yml" # centos_8.6.yml
+    {{ ansible_facts['distribution_version'] }}.yml"  # centos_8.6.yml
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
     {{ ansible_facts['distribution_release'] | lower | replace(' ', '_') }}_\
-    {{ ansible_facts['distribution_major_version'] }}.yml" # centos_stream_8.yml
+    {{ ansible_facts['distribution_major_version'] }}.yml"  # centos_stream_8.yml
   - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}_\
-    {{ ansible_facts['distribution_major_version'] }}.yml" # centos_8.yml
-  - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml" # centos.yml
+    {{ ansible_facts['distribution_major_version'] }}.yml"  # centos_8.yml
+  - "{{ (ansible_facts['distribution'] | lower) | replace(' ', '_') }}.yml"  # centos.yml
   - "{{ ansible_facts['os_family'] | lower }}_\
-    {{ ansible_facts['distribution_version'] }}.yml" # redhat_8.6.yml
+    {{ ansible_facts['distribution_version'] }}.yml"  # redhat_8.6.yml
   - "{{ ansible_facts['os_family'] | lower }}_\
-    {{ ansible_facts['distribution_major_version'] }}.yml" # redhat_8.yml
-  - "{{ ansible_facts['os_family'] | lower }}.yml" # redhat.yml
-  - "default.yml" # default.yml
+    {{ ansible_facts['distribution_major_version'] }}.yml"  # redhat_8.yml
+  - "{{ ansible_facts['os_family'] | lower }}.yml"  # redhat.yml
+  - "default.yml"  # default.yml
 
 ...

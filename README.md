@@ -221,11 +221,13 @@ Role Testing
 
 This repository comes with Molecule tests for Docker on the supported platforms.
 Install Molecule by running
+
 ```bash
 pip3 install -r requirements.txt
 ```
 
 Run the tests with
+
 ```bash
 molecule test
 ```
