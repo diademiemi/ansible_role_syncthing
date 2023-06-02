@@ -10,7 +10,6 @@
 - name: UFW tasks
   when: ufw_directory.stat.exists is defined and ufw_directory.stat.exists
   block:
-
     - name: Copy over UFW application config
       become: true
       ansible.builtin.copy:

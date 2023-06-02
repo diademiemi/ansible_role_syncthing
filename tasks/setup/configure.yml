@@ -7,7 +7,6 @@
 - name: Set syncthing_devices variable
   when: syncthing_autogenerate_devices
   block:
-
     - name: Install pip
       become: true
       ansible.builtin.package:

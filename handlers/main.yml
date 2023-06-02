@@ -4,18 +4,36 @@
   ansible.builtin.command: sysctl -p
   register: sysctl_reload
   changed_when: sysctl_reload.rc == 0
-  failed_when: "sysctl_reload.rc != 0 and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
+  failed_when: "sysctl_reload.rc != 0 and
+    'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
+
+- name: Reload systemd Daemon
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+  failed_when: "systemd_start_syncthing.failed and
+    'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
+
+- name: Start syncthing for user
+  become: true
+  become_user: "{{ syncthing_user }}"
+  ansible.builtin.systemd:
+    scope: user
+    name: syncthing
+    state: started
+    enabled: true
+  failed_when: "systemd_start_syncthing.failed and
+    'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 - name: Restart syncthing for user
   become: true
   become_user: "{{ syncthing_user }}"
   ansible.builtin.systemd:
-    daemon_reload: true
     scope: user
     name: syncthing
     state: restarted
-    enabled: true
-  register: systemd_restart_syncthing
-  failed_when: "systemd_restart_syncthing.failed and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
+  failed_when: "systemd_restart_syncthing.failed and
+    'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
 
 ...
