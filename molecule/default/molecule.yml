@@ -13,6 +13,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
   - name: ubuntu2204
@@ -24,6 +25,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
   - name: debian10
@@ -35,6 +37,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/sbin/init"
   - name: debian11
@@ -46,6 +49,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/sbin/init"
   - name: el8
@@ -57,6 +61,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
   - name: el9
@@ -68,6 +73,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
   - name: fedora38
@@ -79,6 +85,7 @@ platforms:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
 provisioner:
