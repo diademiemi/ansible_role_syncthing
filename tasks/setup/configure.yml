@@ -22,6 +22,9 @@
         - lxml
         - jmespath
 
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+
     - name: Read device ID from Syncthing config
       become: true
       become_user: "{{ syncthing_user }}"
