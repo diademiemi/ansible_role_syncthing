@@ -79,17 +79,4 @@
   when: syncthing_install_user and syncthing_configure
   ansible.builtin.include_tasks: setup/configure.yml
 
-- name: Start syncthing for user
-  become: true
-  become_user: "{{ syncthing_user }}"
-  ansible.builtin.systemd:
-    daemon_reload: true
-    scope: user
-    name: syncthing
-    state: started
-    enabled: true
-  when: syncthing_install_user
-  register: systemd_start_syncthing
-  failed_when: "systemd_start_syncthing.failed and 'molecule-notest' not in ansible_skip_tags" # Systemd user units don't work in docker
-
 ...
