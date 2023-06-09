@@ -1,5 +1,5 @@
 ---
-syncthing_version: v1.23.4
+syncthing_version: v1.23.5
 syncthing_arch: amd64
 syncthing_url: "https://github.com/syncthing/syncthing/releases/download/\
   {{ syncthing_version }}/syncthing-linux-{{ syncthing_arch }}-{{ syncthing_version }}.tar.gz"
