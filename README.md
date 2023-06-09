@@ -200,10 +200,12 @@ Example Playbook
 ----------------
 
 ```yaml
-- name: Use template role
-  hosts: "{{ target | default('template') }}"
+- name: Use diademiemi.syncthing role
+  hosts: "{{ target | default('syncthing') }}"
   roles:
-    - diademiemi.syncthing
+    - role: "diademiemi.syncthing"
+      tags: ['diademiemi', 'solaar', 'setup']
+
 ```
 
 License
