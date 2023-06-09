@@ -1,7 +1,8 @@
 yamllint
 ansible-lint
 ansible
-ansible-compat==3.0.2 # ansible-community/molecule/issues/3903
+ansible-compat==3.0.2  # ansible-community/molecule/issues/3903
+antsibull-changelog
 molecule
 molecule-plugins[podman]
 jmespath

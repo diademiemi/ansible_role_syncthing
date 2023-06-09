@@ -22,7 +22,7 @@
   notify:
     - Reload systemd Daemon
     - Start syncthing for user
-    
+
 - name: Enable linger for this user
   become: true
   ansible.builtin.command: loginctl enable-linger "{{ syncthing_user }}"

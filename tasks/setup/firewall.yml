@@ -2,7 +2,7 @@
 - name: Check if UFW directory exists
   ansible.builtin.stat:
     path: /etc/ufw
-  register: ufw_directory # use this to determine if UFW is used
+  register: ufw_directory  # use this to determine if UFW is used
   changed_when: false
   failed_when: false
   ignore_errors: true
@@ -29,7 +29,7 @@
 - name: Check if firewalld directory exists
   ansible.builtin.stat:
     path: /etc/firewalld
-  register: firewalld_directory # use this to determine if UFW is used
+  register: firewalld_directory  # use this to determine if UFW is used
   changed_when: false
   failed_when: false
   ignore_errors: true
