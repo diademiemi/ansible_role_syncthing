@@ -88,6 +88,18 @@ platforms:
     cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
+  - name: opensuse
+    image: ghcr.io/diademiemi/docker-opensuse15-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
+    privileged: true
+    command: "/usr/sbin/init"
 provisioner:
   name: ansible
   env:

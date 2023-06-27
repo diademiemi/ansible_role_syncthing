@@ -1,0 +1,23 @@
+---
+# Start with base podman image
+image: quay.io/podman/stable
+
+before_script:
+  # Install dependencies
+  - dnf install -y python3-pip
+  - python3 -m pip install --upgrade pip
+  - python3 -m pip install -r requirements.txt
+  - ansible-galaxy install -r requirements.yml
+  # Set netns and utsns to "private" in /etc/containers/containers.conf
+  - sed -i 's/.*netns.*/netns="private"/' /etc/containers/containers.conf
+  - sed -i 's/.*utsns.*/utsns="private"/' /etc/containers/containers.conf
+  # Debug
+  - podman info
+  - ansible --version
+  - molecule --version
+
+molecule:
+  stage: test
+  script:
+    # Run tests
+    - molecule test

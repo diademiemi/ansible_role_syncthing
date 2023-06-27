@@ -28,6 +28,7 @@ galaxy_info:
   # If you don't wish to enumerate all versions for a particular platform, use 'all'.
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
+  #
 
   platforms:
     - name: "EL"
@@ -45,6 +46,9 @@ galaxy_info:
       versions:
         - buster
         - bullseye
+    - name: opensuse
+      versions:
+        - "15.4"
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes
