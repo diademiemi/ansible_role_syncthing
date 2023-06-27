@@ -88,7 +88,7 @@ platforms:
     cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
-  - name: opensuse
+  - name: opensuse15
     image: ghcr.io/diademiemi/docker-opensuse15-ansible
     pre_build_image: true
     systemd: true
