@@ -1,0 +1,13 @@
+---
+- name: Install archive dependencies
+  become: true
+  community.general.zypper:
+    name:
+      - gzip
+      - tar
+    state: present
+
+- name: Include default tasks
+  ansible.builtin.include_tasks: setup/default.yml
+
+...

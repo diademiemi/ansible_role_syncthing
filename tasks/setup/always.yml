@@ -1,0 +1,21 @@
+---
+- name: Enable syncthing-resume.service
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: "{{ syncthing_systemd_units.results[0].changed | bool or syncthing_systemd_units.results[1].changed | bool }}"
+    name: syncthing-resume
+    enabled: true
+
+- name: Configure firewall settings for Syncthing
+  when: syncthing_configure_firewall
+  ansible.builtin.include_tasks: setup/common/firewall.yml
+
+- name: User specific tasks
+  when: syncthing_install_user
+  ansible.builtin.include_tasks: setup/common/user.yml
+
+- name: Configure syncthing for user
+  when: syncthing_install_user and syncthing_configure
+  ansible.builtin.include_tasks: setup/common//configure.yml
+
+...
