@@ -7,5 +7,6 @@ skip_list:
 exclude_paths:
   - collections/**
   - roles/**
+  - changelogs
 
 ...
