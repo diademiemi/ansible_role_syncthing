@@ -8,6 +8,7 @@ name: Import to Galaxy
   workflow_run:
     workflows: ['Molecule Test']
     types: ["completed"]
+  workflow_dispatch:
 
 jobs:
   galaxy-import:

@@ -18,7 +18,7 @@
         'running' in systemctl_status.stdout or
         'degraded' in systemctl_status.stdout
       retries: 30
-      delay: 5
+      delay: 2
       when: ansible_facts["service_mgr"] == 'systemd'
       changed_when: false
       failed_when: false
