@@ -45,6 +45,8 @@
     remote_src: true
     owner: root
     group: root
+  register: copy_syncthing_exec
+  changed_when: "copy_syncthing_exec is changed and 'molecule-idempotence-notest' not in ansible_skip_tags" # Rotating keys
 
 - name: Copy syncthing systemd units
   become: true
