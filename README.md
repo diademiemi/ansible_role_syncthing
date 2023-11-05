@@ -222,7 +222,7 @@ Author Information
 Role Testing
 ------------
 
-This repository comes with Molecule tests for Docker on the supported platforms.
+This repository comes with Molecule that run in Podman on the supported platforms.
 Install Molecule by running
 
 ```bash
