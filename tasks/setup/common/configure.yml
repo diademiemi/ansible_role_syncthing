@@ -13,14 +13,13 @@
         name: python3-pip
         state: present
 
-    - name: Install pip dependencies
-      become: true
-      ansible.builtin.pip:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - lxml
-        - jmespath
+    - name: Include Pip role
+      ansible.builtin.include_role:
+        name: diademiemi.python.pip
+      vars:
+        python_pip_global_packages:
+          - name: lxml
+          - name: jmespath
 
     - name: Flush handlers
       ansible.builtin.meta: flush_handlers

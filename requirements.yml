@@ -1,5 +1,6 @@
 ---
-collections: []
+collections:
+  - name: diademiemi.python
 
 roles: []
 ...

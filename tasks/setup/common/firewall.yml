@@ -1,14 +1,12 @@
 ---
-- name: Check if UFW directory exists
-  ansible.builtin.stat:
-    path: /etc/ufw
-  register: ufw_directory  # use this to determine if UFW is used
-  changed_when: false
-  failed_when: false
-  ignore_errors: true
+- name: Gather service facts
+  ansible.builtin.service_facts:
 
 - name: UFW tasks
-  when: ufw_directory.stat.exists is defined and ufw_directory.stat.exists
+  when:
+    - ansible_facts.services is defined
+    - "'ufw' in ansible_facts.services"
+    - ansible_facts.services['ufw'].state == 'started'
   block:
     - name: Copy over UFW application config
       become: true
@@ -26,27 +24,19 @@
         rule: allow
         name: syncthing
 
-- name: Check if firewalld directory exists
-  ansible.builtin.stat:
-    path: /etc/firewalld
-  register: firewalld_directory  # use this to determine if UFW is used
-  changed_when: false
-  failed_when: false
-  ignore_errors: true
-
 - name: Allow Syncthing ports with firewalld
   become: true
   ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
     state: enabled
-    immediate: true
     zone: public
   loop:
     - 22000/tcp
     - 21027/udp
-  when: firewalld_directory.stat.exists is defined and firewalld_directory.stat.exists
-  register: firewalld_result
-  failed_when: '"failed to connect to" not in firewalld_result.msg'
+  when:
+    - ansible_facts.services is defined
+    - "'firewalld' in ansible_facts.services"
+    - ansible_facts.services['firewalld'].state == 'started'
 
 ...
