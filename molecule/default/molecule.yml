@@ -52,6 +52,18 @@ platforms:
     cgroupns_mode: host
     privileged: true
     command: "/sbin/init"
+  - name: debian12
+    image: docker.io/geerlingguy/docker-debian12-ansible
+    pre_build_image: true
+    systemd: true
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cgroupns_mode: host
+    privileged: true
+    command: "/sbin/init"
   - name: el8
     image: docker.io/geerlingguy/docker-rockylinux8-ansible
     pre_build_image: true

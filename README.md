@@ -16,6 +16,7 @@ These platforms are supported:
 - Ubuntu 22.04
 - Debian 10
 - Debian 11
+- Debian 12
 - EL 8 (Tested on Rocky Linux 8)
 - EL 9 (Tested on Rocky Linux 9)
 - Fedora 38
