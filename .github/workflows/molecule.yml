@@ -1,6 +1,5 @@
 ---
-name: Molecule Test
-
+name: CI
 "on":
   push:
     branches:
