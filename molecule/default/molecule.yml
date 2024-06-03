@@ -22,15 +22,6 @@ platforms:
     cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
-  - name: debian10
-    image: docker.io/geerlingguy/docker-debian10-ansible
-    pre_build_image: true
-    systemd: always
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    cgroupns_mode: host
-    privileged: true
-    command: "/sbin/init"
   - name: debian11
     image: docker.io/geerlingguy/docker-debian11-ansible
     pre_build_image: true
