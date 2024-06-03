@@ -4,6 +4,8 @@ ansible
 ansible-compat
 antsibull-changelog
 antsibull-docs
+docker>=7.1.0
+requests==2.31.0
 molecule
 molecule-plugins[docker]
 jmespath
