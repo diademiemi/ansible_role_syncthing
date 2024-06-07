@@ -18,7 +18,7 @@ These platforms are supported:
 - Debian 12
 - EL 8 (Tested on Rocky Linux 8)
 - EL 9 (Tested on Rocky Linux 9)
-- Fedora 38
+- Fedora 40
 - openSUSE Leap 15.5
 
 Role Variables

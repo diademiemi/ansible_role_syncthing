@@ -58,8 +58,8 @@ platforms:
     cgroupns_mode: host
     privileged: true
     command: "/usr/sbin/init"
-  - name: fedora38
-    image: docker.io/geerlingguy/docker-fedora38-ansible
+  - name: fedora40
+    image: docker.io/geerlingguy/docker-fedora40-ansible
     pre_build_image: true
     systemd: always
     volumes:
